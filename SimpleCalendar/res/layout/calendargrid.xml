@@ -59,7 +59,7 @@
             android:layout_toLeftOf="@+id/nextMonth"
             android:layout_toRightOf="@+id/prevMonth"
             android:layout_weight="0.8"
-            android:background="@drawable/button_blue_background"
+            android:background="@drawable/text_box_background"
             android:contentDescription="@string/thisMonth"
             android:lines="1"
             android:maxLines="1"
