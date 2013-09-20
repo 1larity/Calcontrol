@@ -269,20 +269,29 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 		// Trailing Month days
 		for (int i = 0; i < trailingSpaces; i++)
 		{
-			list.add(String.valueOf((daysInPrevMonth - trailingSpaces + 1) + i) + "-BLACK" + "-" + months[prevMonth] + "-" + prevYear);
+			list.add(String.valueOf((daysInPrevMonth - trailingSpaces + 1) + i)
+					+ "-GRAY" + "-" + months[prevMonth] + "-" + prevYear);
+			
 		}
 
 		// Current Month Days
 		for (int i = 1; i <= daysInMonth; i++)
 		{
-			list.add(String.valueOf(i) + "-WHITE" + "-" + months[mm] + "-" + yy);
+			if (i==currentDayOfMonth){
+				list.add(String.valueOf(i) + "-CYAN"
+			+ "-" + months[mm] + "-" + yy);
+			}else{
+			list.add(String.valueOf(i) + "-WHITE" 
+			+ "-" + months[mm] + "-" + yy);
+			}
 		}
 
 		// Leading Month days
 		for (int i = 0; i < list.size() % 7; i++)
 		{
 			Log.d(tag, "NEXT MONTH:= " + months[nextMonth]);
-			list.add(String.valueOf(i + 1) + "-BLACK" + "-" + months[nextMonth] + "-" + nextYear);
+			list.add(String.valueOf(i + 1) + "-GRAY"
+			+ "-" + months[nextMonth] + "-" + nextYear);
 		}
 	}
 
@@ -321,11 +330,19 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 		{
 			gridcell.setTextColor(Color.BLACK);
 		}
+		if (day_color[1].equals("GRAY"))
+		{
+			gridcell.setTextColor(Color.GRAY);
+		}
+		if (day_color[1].equals("RED"))
+		{
+			gridcell.setTextColor(Color.RED);
+		}
 		if (day_color[1].equals("WHITE"))
 		{
 			gridcell.setTextColor(Color.WHITE);
 		}
-		if (position == currentDayOfMonth)
+		if (day_color[1].equals("CYAN"))
 		{
 			gridcell.setTextColor(Color.CYAN);
 		}
