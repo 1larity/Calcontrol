@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CalendarWidgetTest</string>
+    <string name="prevMonth">Previous month</string>
+    <string name="nextMonth">Next month</string>
+     <string name="thisMonth">This month</string>
+     <string name="toDay">Today</string>
+      <string name="toMorrow">Tomorrow</string>
+      <string name="yesterday">Yesterday</string>
 </resources>

@@ -5,9 +5,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-	<com.examples.CalendarGrid
-	    android:id="@+id/calgrid"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" />
+    <com.examples.CalendarGrid
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:visibility="visible" />
 
 </LinearLayout>

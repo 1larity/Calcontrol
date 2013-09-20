@@ -1,47 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:background="@drawable/bg">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendargrid"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
 	<LinearLayout
-		
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+	    android:id="@+id/datetransport"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="0dp"
+	    android:layout_marginBottom="0dp"
+	    android:layout_marginLeft="0dp"
+	    android:layout_marginRight="0dp"
+	    android:layout_marginTop="0dp"
+	    android:orientation="horizontal"
+	    android:padding="0dp"
+	    android:paddingBottom="0dp"
+	    android:paddingLeft="0dp"
+	    android:paddingRight="0dp"
+	    android:paddingTop="0dp" >
 
 		<ImageView
-			android:id="@+id/prevMonth"
-			android:src="@drawable/left_cal_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+		    android:id="@+id/prevMonth"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:adjustViewBounds="true"
+		    android:contentDescription="@string/prevMonth"
+		    android:cropToPadding="true"
+		    android:maxHeight="64dp"
+		    android:maxWidth="64dp"
+		    android:scrollbarAlwaysDrawVerticalTrack="false"
+		    android:src="@drawable/left_cal_button" >
+
 		</ImageView>
+
 		<Button
-			android:id="@+id/currentMonth"
-			android:layout_weight="0.8"
-			android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-			android:background="@drawable/button_blue_background"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+		    android:id="@+id/currentMonth"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.8"
+		    android:background="@drawable/button_blue_background"
+		    android:contentDescription="@string/thisMonth"
+		    android:textAppearance="?android:attr/textAppearanceMedium"
+		    android:textColor="#FFFFFF" >
+
 		</Button>
+
 		<ImageView
-			android:id="@+id/nextMonth"
-			android:src="@drawable/right_cal_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+		    android:id="@+id/nextMonth"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:adjustViewBounds="true"
+		    android:contentDescription="@string/prevMonth"
+		    android:maxHeight="64dp"
+		    android:maxWidth="64dp"
+		    android:padding="0dp"
+		    android:paddingLeft="0dp"
+		    android:paddingRight="0dp"
+		    android:paddingTop="0dp"
+		    android:scaleType="fitCenter"
+		    android:scrollbars="none"
+		    android:src="@drawable/right_cal_button" >
+
 		</ImageView>
 	</LinearLayout>
 
 	<GridView
-		android:id="@+id/calendar"
-		android:horizontalSpacing="-1px"
-		android:verticalSpacing="-1px"
-		android:numColumns="7"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+	    android:id="@+id/calendar"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:horizontalSpacing="-1px"
+	    android:numColumns="7"
+	    android:verticalSpacing="-1px" >
 	</GridView>
 
 </LinearLayout>
