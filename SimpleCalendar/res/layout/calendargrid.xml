@@ -30,7 +30,7 @@
         android:scrollbars="none"
         >
 
-        <ImageView
+        <ImageButton
             android:id="@+id/prevMonth"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -40,14 +40,16 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/left_cal_button"
             android:contentDescription="@string/prevMonth"
             android:cropToPadding="false"
-            android:maxHeight="64dp"
-            android:maxWidth="64dp"
+            android:padding="0dp"
+            android:scaleType="center"
             android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbars="none"
             android:src="@drawable/left_cal_button" >
 
-        </ImageView>
+        </ImageButton>
 
         <Button
             android:id="@+id/currentMonth"
@@ -58,7 +60,6 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/nextMonth"
             android:layout_toRightOf="@+id/prevMonth"
-            android:layout_weight="0.8"
             android:background="@drawable/text_box_background"
             android:contentDescription="@string/thisMonth"
             android:lines="1"
@@ -68,7 +69,7 @@
 
         </Button>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/nextMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +87,7 @@
             android:scaleType="fitCenter"
             android:scrollbars="none"
             android:src="@drawable/right_cal_button" >
-        </ImageView>
+        </ImageButton>
     </RelativeLayout>
 
     <GridView
