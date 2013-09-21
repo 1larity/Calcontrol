@@ -15,12 +15,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class Calcontrol extends LinearLayout   implements OnClickListener
 
@@ -32,6 +34,7 @@ private ImageView nextMonth;
 private GridView calendarGrid;
 private GridCellAdapter adapter;
 private Calendar _calendar;
+private static String userDate;
 private int month, year;
 private String format;
 private SimpleDateFormat formattedDate;
@@ -76,11 +79,11 @@ private void init(Context context){
 
 
 	try {
-
+		userDate="unset";
 		_calendar = Calendar.getInstance(Locale.getDefault());
 		month = _calendar.get(Calendar.MONTH);
 		year = _calendar.get(Calendar.YEAR);
-		format ="dd-MM-yyyy HH:mm:ss";
+		format ="dd-MMMM-yyyy";
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.calendargrid, this,true);
@@ -126,9 +129,11 @@ protected void onFinishInflate(){
 }
 
 @Override
-public void onClick(View v)
+public void onClick(View view)
 {
-	if (v == prevMonth)
+	Log.d(tag,view.toString());
+	//if view is previous month button
+	if (view == prevMonth)
 	{
 		if (month <= 1)
 		{
@@ -140,6 +145,7 @@ public void onClick(View v)
 		}
 
 		if (DEBUG)Log.d(tag, "Before 1 MONTH " + "Month: " + month + " " + "Year: " + year);
+		
 		adapter = new GridCellAdapter(this, getContext(), R.id.gridcell, month, year);
 		_calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
 		Date date = _calendar.getTime();
@@ -149,7 +155,8 @@ public void onClick(View v)
 		adapter.notifyDataSetChanged();
 		calendarGrid.setAdapter(adapter);
 	}
-	if (v == nextMonth)
+	//if view is next month button
+	if (view == nextMonth)
 	{
 		if (month >= 11)
 		{
@@ -159,8 +166,9 @@ public void onClick(View v)
 		{
 			month++;
 		}
-
+		
 		if(DEBUG) Log.d(tag, "After 1 MONTH " + "Month: " + month + " " + "Year: " + year);
+		
 		adapter = new GridCellAdapter(this, getContext(), R.id.gridcell, month, year);
 		_calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
 		Date date = _calendar.getTime();
@@ -168,6 +176,42 @@ public void onClick(View v)
 		adapter.notifyDataSetChanged();
 		calendarGrid.setAdapter(adapter);
 	}
+	if (view==calendarGrid){
+		adapter = new GridCellAdapter(this, getContext(), R.id.gridcell, month, year);
+		_calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
+		Date date = _calendar.getTime();
+		currentMonth.setText(formattedDate.format(date));
+		adapter.notifyDataSetChanged();
+		calendarGrid.setAdapter(adapter);
+		
+		setUserDate(adapter.getUserDate());
+	Toast.makeText(getContext(), userDate, Toast.LENGTH_SHORT).show();
+	}
+}
+
+
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+    
+	if (ev.getActionMasked() == MotionEvent.ACTION_UP)
+	{
+	setUserDate(adapter.getUserDate());
+	Toast.makeText(getContext(), userDate, Toast.LENGTH_SHORT).show();
+	}
+	return false; 
+}
+/**
+ * @return the userDate
+ */
+public static String getUserDate() {
+	return userDate;
+}
+
+/**
+ * @param userDate the userDate to set
+ */
+public void setUserDate(String userDate) {
+	this.userDate = userDate;
 }
 
 

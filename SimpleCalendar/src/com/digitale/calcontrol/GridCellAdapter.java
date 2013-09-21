@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -22,7 +25,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 //
-public class GridCellAdapter extends BaseAdapter implements OnClickListener
+public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 {
 
 	//Parent Calcontrol(viewgroup)
@@ -41,6 +44,7 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 	//Array holding the number of days in each month
 	private final int[] daysOfMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private final int month, year;
+	private String userDate; 
 	int daysInMonth, prevMonthDays;
 	private final int currentDayOfMonth;
 	private Button gridcell;
@@ -54,8 +58,8 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 		this.list = new ArrayList<String>();
 		this.month = month;
 		this.year = year;
-
-		Log.d(tag, "Month: " + month + " " + "Year: " + year);
+		userDate="unset";
+		if(DEBUG) Log.d(tag, "Month: " + month + " " + "Year: " + year);
 		Calendar calendar = Calendar.getInstance();
 		currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
@@ -149,7 +153,7 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 		// set fontcolour for those cells to grey
 		for (int i = 0; i < list.size() % 7; i++)
 		{
-			Log.d(tag, "NEXT MONTH:= " + months[nextMonth]);
+			if(DEBUG) Log.d(tag, "NEXT MONTH:= " + months[nextMonth]);
 			list.add(String.valueOf(i + 1) + "-GRAY"
 			+ "-" + months[nextMonth] + "-" + nextYear);
 		}
@@ -164,12 +168,12 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Log.d(tag, "getView ...");
+		if(DEBUG) Log.d(tag, "getView ...");
 		View row = convertView;
 		if (row == null)
 		{
 			// ROW INFLATION
-			Log.d(tag, "Starting XML Row Inflation ... ");
+			if(DEBUG) Log.d(tag, "Starting XML Row Inflation ... ");
 			LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			row = inflater.inflate(R.layout.gridcell, parent, false);
 
@@ -177,11 +181,11 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 		}
 
 		gridcell = (Button) row.findViewById(R.id.gridcell);
-		gridcell.setOnClickListener(this);
+		gridcell.setOnTouchListener(this);
 
 		
 
-		Log.d(tag, "Current Day: " + currentDayOfMonth);
+		if(DEBUG) Log.d(tag, "Current Day: " + currentDayOfMonth);
 		String[] day_color = list.get(position).split("-");
 		gridcell.setText(day_color[0]);
 		gridcell.setTag(day_color[0] + "-" + day_color[2] + "-" + day_color[3]);
@@ -211,11 +215,15 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 	}
 
 	@Override
-	public void onClick(View view)
+	public boolean onTouch(View view, MotionEvent ev)
 	{
 		String date_month_year = (String) view.getTag();
-		Toast.makeText(this.calcontrol.getContext(), date_month_year, Toast.LENGTH_SHORT).show();
-
+		//Toast.makeText(this.calcontrol.getContext(), date_month_year, Toast.LENGTH_SHORT).show();
+		
+		setUserDate(date_month_year);
+		Log.d(tag,getUserDate());
+		return false;
+		
 	}
 
 	/**
@@ -238,4 +246,20 @@ public class GridCellAdapter extends BaseAdapter implements OnClickListener
 	public String[] getWeekdays() {
 		return weekdays;
 	}
+
+	/**
+	 * @return the userDate
+	 */
+	public  String getUserDate() {
+		return this.userDate;
+	}
+
+	/**
+	 * @param userDate the userDate to set
+	 */
+	public void setUserDate(String userDate) {
+		this.userDate = userDate;
+	
+
+}
 }

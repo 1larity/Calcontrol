@@ -6,9 +6,18 @@
     android:orientation="vertical" >
 
     <com.digitale.calcontrol.Calcontrol
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/myCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/froyo_cell_selected" >
+
+    </LinearLayout>
 
 </LinearLayout>
