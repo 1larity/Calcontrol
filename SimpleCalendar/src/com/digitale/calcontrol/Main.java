@@ -6,40 +6,40 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
-public class Main extends Activity{
+public class Main extends Activity {
 
-	private Calcontrol calendar;
+	
 
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main); 
-		addListenerOnCalendar();
-	}
-	
-	public void addListenerOnCalendar() {
-		 
-		calendar = (Calcontrol) findViewById(R.id.myCalendar);
-	
+		setContentView(R.layout.main);
+		Button button  = (Button) findViewById(R.id.button1);
+		final Calcontrol calendar = (Calcontrol) findViewById(R.id.myCalendar);
+		
 		calendar.setOnClickListener(new OnClickListener() {
-			 
 			@Override
-			public void onClick(View arg0) {
- 
-				String output=calendar.getUserDate();
-				Toast.makeText(getBaseContext(), output,
-						Toast.LENGTH_SHORT).show();
-				
- 
+			public void onClick(View v) {
+
+				String output = calendar.getUserDate() + " cal output";
+				Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT)
+						.show();
 			}
- 
 		});
-		//test
+		
+		button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				String output = calendar.getUserDate() + " button output";
+				Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
+		
+		
 		
 	}
-
-	
-	}
-
+}
