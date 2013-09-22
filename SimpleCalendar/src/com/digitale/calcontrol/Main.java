@@ -29,7 +29,9 @@ public class Main extends Activity{
 			public void onClick(View arg0) {
  
 				String output=calendar.getUserDate();
-				Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), output,
+						Toast.LENGTH_SHORT).show();
+				
  
 			}
  

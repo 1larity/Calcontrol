@@ -12,8 +12,17 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.Log;
+import android.util.StateSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,11 +41,13 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 	private final Calcontrol calcontrol;
 	//Debug tag
 	private static final String tag = "GridCellAdapter";
+	//Debug flag
 	private static final boolean DEBUG = false;
+	private static final int TOP_LEFT = 1;
 	//App context
 	private final Context _context;
-	//Array holding the colour strings for tinting day numbers in grid
-	private final List<String> list;
+	//Array holding the colour strings for tinting day numbers in grid, and date
+	private final List<String> dayList;
 	//Array holding long English names of week days
 	private final String[] weekdays = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 	//Array holding long English names of months
@@ -55,7 +66,7 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 		super();
 		this.calcontrol = calcontrol;
 		this._context = context;
-		this.list = new ArrayList<String>();
+		this.dayList = new ArrayList<String>();
 		this.month = month;
 		this.year = year;
 		userDate="unset";
@@ -68,13 +79,13 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 
 	public String getItem(int position)
 	{
-		return list.get(position);
+		return dayList.get(position);
 	}
 
 	@Override
 	public int getCount()
 	{
-		return list.size();
+		return dayList.size();
 	}
 
 	private void printMonth(int mm, int yy)
@@ -131,7 +142,7 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 		//set font colour for those cells to grey.
 		for (int i = 0; i < trailingSpaces; i++)
 		{
-			list.add(String.valueOf((daysInPrevMonth - trailingSpaces + 1) + i)
+			dayList.add(String.valueOf((daysInPrevMonth - trailingSpaces + 1) + i)
 					+ "-GRAY" + "-" + months[prevMonth] + "-" + prevYear);
 			
 		}
@@ -141,20 +152,20 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 		for (int i = 1; i <= daysInMonth; i++)
 		{
 			if (i==currentDayOfMonth){
-				list.add(String.valueOf(i) + "-CYAN"
+				dayList.add(String.valueOf(i) + "-CYAN"
 			+ "-" + months[mm] + "-" + yy);
 			}else{
-			list.add(String.valueOf(i) + "-WHITE" 
+			dayList.add(String.valueOf(i) + "-WHITE" 
 			+ "-" + months[mm] + "-" + yy);
 			}
 		}
 
 		// Compute padding days before the first day of this month
 		// set fontcolour for those cells to grey
-		for (int i = 0; i < list.size() % 7; i++)
+		for (int i = 0; i < dayList.size() % 7; i++)
 		{
 			if(DEBUG) Log.d(tag, "NEXT MONTH:= " + months[nextMonth]);
-			list.add(String.valueOf(i + 1) + "-GRAY"
+			dayList.add(String.valueOf(i + 1) + "-GRAY"
 			+ "-" + months[nextMonth] + "-" + nextYear);
 		}
 	}
@@ -182,12 +193,17 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 
 		gridcell = (Button) row.findViewById(R.id.gridcell);
 		gridcell.setOnTouchListener(this);
-
+		
+		Drawable background=compositBackground(parent);
+		gridcell.setBackgroundDrawable(background);
 		
 
 		if(DEBUG) Log.d(tag, "Current Day: " + currentDayOfMonth);
-		String[] day_color = list.get(position).split("-");
+		//decompose date and colour from day list
+		String[] day_color = dayList.get(position).split("-");
+		//set cell day number
 		gridcell.setText(day_color[0]);
+		//set cell tag with actual date
 		gridcell.setTag(day_color[0] + "-" + day_color[2] + "-" + day_color[3]);
 		// Set font colour of cells
 		if (day_color[1].equals("BLACK"))
@@ -213,7 +229,56 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener
 
 		return row;
 	}
+	
+	/**
+	 * build state list images and composite icons onto images
+	 */
+	private Drawable compositBackground(ViewGroup parent) {
+		Drawable bgDrawableUp;
+		Drawable bgDrawableDown;
+		
+		Resources res=parent.getResources();
+		
+		//render bg bitmap for Up state
+		Bitmap mBackgroundUp = BitmapFactory.decodeResource( res, R.drawable.froyo_cell );
+		Bitmap mOverlayUp = BitmapFactory.decodeResource( res, R.drawable.left_arrow );
+		//Process image, scale it
+		Bitmap scaledBitmapUp =Bitmap.createScaledBitmap(mBackgroundUp, 128, 128, true);
+		scaledBitmapUp=overlay(scaledBitmapUp, mOverlayUp,TOP_LEFT);
+		//derive drawable
+		bgDrawableUp=new BitmapDrawable(scaledBitmapUp);
+		
+		//render bg bitmap for pressed state
+		Bitmap mBackgroundDown = BitmapFactory.decodeResource( res, R.drawable.froyo_cell_selected );
+		//Process image, scale it
+		Bitmap scaledBitmapDown =Bitmap.createScaledBitmap(mBackgroundDown, 128, 128, true);
+		//derive drawable
+		bgDrawableDown=new BitmapDrawable(scaledBitmapDown);
+		
+		//Construct state list
+		StateListDrawable mIcon = new StateListDrawable();
+		//set button DOWN state grapgic
+        mIcon.addState(new int[] { android.R.attr.state_pressed },  bgDrawableDown);
+        //set button UP (all other) state graphic
+        mIcon.addState(StateSet.WILD_CARD, bgDrawableUp);
+		
+        //return the state list drawable;
+        return mIcon;
+	}
 
+	/**
+	 * bitmap overlay function
+	 */
+    private Bitmap overlay(Bitmap bmp1, Bitmap bmp2, int overlayPosition) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, new Matrix(), null);
+        canvas.drawBitmap(bmp2, new Matrix(), null);
+        return bmOverlay;
+    }
+	/**
+	 * Store user selection when grid is touched
+	 */
 	@Override
 	public boolean onTouch(View view, MotionEvent ev)
 	{

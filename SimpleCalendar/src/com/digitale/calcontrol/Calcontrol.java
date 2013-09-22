@@ -176,20 +176,12 @@ public void onClick(View view)
 		adapter.notifyDataSetChanged();
 		calendarGrid.setAdapter(adapter);
 	}
-	if (view==calendarGrid){
-		adapter = new GridCellAdapter(this, getContext(), R.id.gridcell, month, year);
-		_calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
-		Date date = _calendar.getTime();
-		currentMonth.setText(formattedDate.format(date));
-		adapter.notifyDataSetChanged();
-		calendarGrid.setAdapter(adapter);
-		
-		setUserDate(adapter.getUserDate());
-	Toast.makeText(getContext(), userDate, Toast.LENGTH_SHORT).show();
-	}
+	
 }
 
-
+/**
+ * Store user selection when grid is touched
+ */
 @Override
 public boolean onInterceptTouchEvent(MotionEvent ev) {
     
