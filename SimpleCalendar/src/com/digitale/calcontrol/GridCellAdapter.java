@@ -238,6 +238,7 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener {
 		Drawable bgDrawableUp=null;
 		Drawable bgDrawableDown=null;
 
+		
 		Resources res = parent.getResources();
 
 		// render bg bitmap for Up state
@@ -250,8 +251,8 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener {
 		// Process image, scale it
 		Bitmap scaledBitmapUp = Bitmap.createScaledBitmap(mBackgroundUp, 128,
 				128, true);
-		for (int l_i = 0; l_i <= 3; l_i++){
-		Random l_rand = new Random();
+		//for (int l_i = 0; l_i <= 3; l_i++){
+		/*Random l_rand = new Random();
 		int l_pickedpos = l_rand.nextInt(4);
 		int l_pickedolour = l_rand.nextInt(4);
 		switch (l_pickedolour) {
@@ -271,7 +272,7 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener {
 			scaledBitmapUp = overlay(scaledBitmapUp, scaledBitmapOverlay,
 					l_pickedpos, Color.GREEN);
 			break;
-		}
+		}*/
 		// derive drawable
 		bgDrawableUp = new BitmapDrawable(scaledBitmapUp);
 
@@ -281,7 +282,7 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener {
 		// Process image, scale it
 		Bitmap scaledBitmapDown = Bitmap.createScaledBitmap(mBackgroundDown,
 				128, 128, true);
-		switch (l_pickedolour) {
+		/*switch (l_pickedolour) {
 		case 0:
 			scaledBitmapDown = overlay(scaledBitmapDown, scaledBitmapOverlay,
 					l_pickedpos, Color.CYAN);
@@ -298,10 +299,10 @@ public class GridCellAdapter extends BaseAdapter implements OnTouchListener {
 			scaledBitmapDown = overlay(scaledBitmapDown, scaledBitmapOverlay,
 					l_pickedpos, Color.GREEN);
 			break;
-		}
+		}*/
 		// derive drawable
 		bgDrawableDown = new BitmapDrawable(scaledBitmapDown);
-		}
+		//}
 		// Construct state list
 		StateListDrawable mIcon = new StateListDrawable();
 		// set button DOWN state grapgic

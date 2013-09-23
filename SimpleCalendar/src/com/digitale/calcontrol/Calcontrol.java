@@ -54,8 +54,7 @@ public Calcontrol(Context context)
 	super(context);
 	if(!isInEditMode())
 		init(context);
-	
-	
+
 }
 
 public Calcontrol(Context context, AttributeSet attrs) 
@@ -63,8 +62,6 @@ public Calcontrol(Context context, AttributeSet attrs)
 	super(context,attrs);
 	if(!isInEditMode())
 		init(context);
-	
-	
 }
 
 
@@ -190,7 +187,7 @@ public void onClick(View view)
 }
 
 /**
- * Store user selection when grid is touched
+ * Store user selection when grid is touched & update readout text
  */
 @Override
 public boolean onInterceptTouchEvent(MotionEvent l_ev) {
@@ -198,6 +195,7 @@ public boolean onInterceptTouchEvent(MotionEvent l_ev) {
 	if (l_ev.getActionMasked() == MotionEvent.ACTION_UP)
 	{
 	setUserDate(m_adapter.getUserDate());
+	m_currentMonth.setText(getUserDate());
 	//Toast.makeText(getContext(), userDate, Toast.LENGTH_SHORT).show();
 	}
 	return false; 
@@ -215,6 +213,9 @@ public String getUserDate() {
 public void setUserDate(String userDate) {
 	this.m_userDate = userDate;
 }
+
+
+
 
 
 }

@@ -3,11 +3,11 @@
 package com.digitale.calcontrol;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -16,30 +16,34 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		Button button  = (Button) findViewById(R.id.button1);
+		Button l_buttonOK  = (Button) findViewById(R.id.buttonOK);
+		Button l_buttonCancel=(Button) findViewById(R.id.buttonCancel);
 		final Calcontrol calendar = (Calcontrol) findViewById(R.id.myCalendar);
 		
-		calendar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				String output = calendar.getUserDate() + " cal output";
-				Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT)
-						.show();
-			}
-		});
 		
-		button.setOnClickListener(new OnClickListener() {
+		l_buttonOK.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
-				String output = calendar.getUserDate() + " button output";
-				Toast.makeText(getBaseContext(), output, Toast.LENGTH_SHORT)
-						.show();
+				String output = calendar.getUserDate();
+				Intent data = new Intent();
+				data.putExtra("returnDate", output);
+				setResult(Activity.RESULT_OK, data);
+				finish();
 			}
 		});
 		
-		
+		l_buttonCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				String output = " cancel";
+				Intent data = new Intent();
+				data.putExtra("returnDate", output);
+				setResult(Activity.RESULT_CANCELED, data);
+				finish();
+			}
+		});
 		
 	}
 }

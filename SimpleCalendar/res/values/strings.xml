@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CalendarWidgetTest</string>
+    <string name="app_name">Pick a date</string>
     <string name="prevMonth">Previous month</string>
     <string name="nextMonth">Next month</string>
      <string name="thisMonth">This month</string>
